@@ -6,32 +6,44 @@ import java.util.Optional;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-import me.kotsu.config.AppConfiguration;
+import me.kotsu.AppUtils;
 import me.kotsu.data.DataProvider;
 
 public class FTPDataProvider implements DataProvider<FTPDataProviderConfig> {
 
 	@Override
 	public Optional<String> fetch(FTPDataProviderConfig config) {
+		
+		FTPClient ftp = new FTPClient();
 		try {
-			FTPClient ftp = new FTPClient();
+			ftp.connect(config.server(), config.port());
 			
-			ftp.connect(config.server() + ":" + config.port());
-			ftp.login(config.user(), config.password());
+			if(!ftp.login(config.user(), config.password())) {
+				return Optional.empty();
+			}
 			
 			ftp.enterLocalPassiveMode();// zawsze daję
 			
-			InputStream fileIS = ftp.retrieveFileStream(config.path());
-			String fileContent = new String(fileIS.readAllBytes(), AppConfiguration.CHARSET); //hardcodowane dekodowanie stringa, takie mam założenia, że plik to String JSON!
-			
-			ftp.logout();
-			ftp.disconnect();
-			
-			return Optional.of(fileContent);
-			
+			try(InputStream fileStream = ftp.retrieveFileStream(config.path())) {
+				byte[] allFileBytes = fileStream.readAllBytes();
+				
+				String fileContent = AppUtils.decodeBytesToString(allFileBytes);
+				
+				if (!ftp.completePendingCommand()) {
+	                return Optional.empty();
+	            }
+				
+				return Optional.of(fileContent);
+			}
 		} catch (IOException e) {
 			return Optional.empty();
+		} finally {
+			try {
+				if (ftp.isConnected()) {
+		            ftp.logout();
+		            ftp.disconnect();
+		        }
+			} catch (IOException ignored) {}
 		}
 	}
-
 }
