@@ -1,11 +1,11 @@
 package me.kotsu.data.file;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import me.kotsu.config.AppConfiguration;
 import me.kotsu.data.DataProvider;
 
 public class FileDataProvider implements DataProvider<FileDataProviderConfig> {
@@ -23,7 +23,7 @@ public class FileDataProvider implements DataProvider<FileDataProviderConfig> {
 		
 		try {
 	        byte[] fileContent = Files.readAllBytes(path);
-	        return Optional.of(new String(fileContent, StandardCharsets.UTF_8));
+	        return Optional.of(new String(fileContent, AppConfiguration.CHARSET));
 	    } catch (IOException e) {
 	        return Optional.empty();
 	    }
