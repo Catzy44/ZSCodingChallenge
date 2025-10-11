@@ -1,8 +1,11 @@
 package me.kotsu.config;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import me.kotsu.data.DataProviderFactory;
+import me.kotsu.parser.Parser;
+import me.kotsu.sort.SortingService;
 
-public class AppConfiguration {
-	public static final Charset CHARSET = StandardCharsets.UTF_8;
+public interface AppConfiguration {
+	public DataProviderFactory buildFactory();
+	public Parser buildParser();
+	public SortingService buildSorter();
 }

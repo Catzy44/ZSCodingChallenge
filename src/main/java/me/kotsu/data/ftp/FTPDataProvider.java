@@ -10,9 +10,14 @@ import me.kotsu.AppUtils;
 import me.kotsu.data.DataProvider;
 
 public class FTPDataProvider implements DataProvider<FTPDataProviderConfig> {
+	private FTPDataProviderConfig config;
+	public FTPDataProvider(FTPDataProviderConfig config) {
+		this.config = config;
+	}
+
 
 	@Override
-	public Optional<String> fetch(FTPDataProviderConfig config) {
+	public Optional<String> fetch() {
 		
 		FTPClient ftp = new FTPClient();
 		try {
@@ -27,7 +32,7 @@ public class FTPDataProvider implements DataProvider<FTPDataProviderConfig> {
 			try(InputStream fileStream = ftp.retrieveFileStream(config.path())) {
 				byte[] allFileBytes = fileStream.readAllBytes();
 				
-				String fileContent = AppUtils.decodeBytesToString(allFileBytes);
+				String fileContent = AppUtils.decodeBytesToString(allFileBytes, config.decoderCharset());
 				
 				if (!ftp.completePendingCommand()) {
 	                return Optional.empty();
@@ -35,7 +40,7 @@ public class FTPDataProvider implements DataProvider<FTPDataProviderConfig> {
 				
 				return Optional.of(fileContent);
 			}
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 			return Optional.empty();
 		} finally {
 			try {

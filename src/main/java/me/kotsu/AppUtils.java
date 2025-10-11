@@ -1,8 +1,8 @@
 package me.kotsu;
-import me.kotsu.config.AppConfiguration;
+import java.nio.charset.Charset;
 
 public class AppUtils {
-	public static String decodeBytesToString(byte[] bytes) {
-		return new String(bytes, AppConfiguration.CHARSET); //hardcodowane dekodowanie stringa, takie mam założenia, że plik to String JSON!
+	public static String decodeBytesToString(byte[] bytes, Charset charset) {
+		return new String(bytes, charset); //hardcodowane dekodowanie stringa, takie mam założenia, że plik to String JSON!
 	}
 }

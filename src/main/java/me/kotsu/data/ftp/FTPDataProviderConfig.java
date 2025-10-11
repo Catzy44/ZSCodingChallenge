@@ -1,5 +1,7 @@
 package me.kotsu.data.ftp;
 
+import java.nio.charset.Charset;
+
 import me.kotsu.data.DataProviderConfig;
 
 public record FTPDataProviderConfig(
@@ -7,5 +9,6 @@ public record FTPDataProviderConfig(
 		int port,
 		String user,
 		String password,
-		String path
+		String path,
+		Charset decoderCharset
 ) implements DataProviderConfig {}
