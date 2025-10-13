@@ -12,6 +12,15 @@ public class MainService {
 		config = conf;
 	}
 	
+	/**
+	 * Entry point of the application.
+	 * 
+	 * 1. Fetches integer list from first available data source (File, HTTP, FTP).
+	 * 2. Parses input into int array using selected parser.
+	 * 3. Sorts data using selected sorting algorithm.
+	 * 
+	 * @return sorted output and logs execution time.
+	 */
 	public String start() {
 		String data = config.buildFactory()
 				.fetchFirstAvailableDataSource()

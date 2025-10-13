@@ -1,6 +1,8 @@
-package me.kotsu.sort;
+package me.kotsu.sort.bubble;
 
-public class BubbleSortingAlhorithm implements SortingAlgorithm {
+import me.kotsu.sort.SortingAlgorithm;
+
+public class SortingAlgorithmBubble implements SortingAlgorithm {
 	@Override
 	public void sort(int[] arr) {
 		int n = arr.length;

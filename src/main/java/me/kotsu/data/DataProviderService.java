@@ -3,25 +3,24 @@ package me.kotsu.data;
 import java.util.List;
 import java.util.Optional;
 
-public class DataProviderFactory {
+public class DataProviderService {
 	
 	//private final Map<DataProvider<?>, DataProviderConfig> dataSources;//linked bo kolejność ma być zachowana
-	private final List<DataProvider<?>> providers;
+	private final List<DataProvider<?>> activeDataProviders;
 	 
-	public DataProviderFactory(List<DataProvider<?>> providers) {
-		this.providers = providers;
+	public DataProviderService(List<DataProvider<?>> providers) {
+		this.activeDataProviders = providers;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Optional<String> fetchFirstAvailableDataSource() {
-		 return providers.stream()
+		 return activeDataProviders.stream()
 		 .map(DataProvider::fetch)
 		 .filter(Optional::isPresent)
 		 .findFirst()
 		 .orElse(Optional.empty());
 	 }
 	
-	public static DataProviderFactoryBuilder builder() {
-        return new DataProviderFactoryBuilder();
+	public static DataProviderServiceBuilder builder() {
+        return new DataProviderServiceBuilder();
     }
 }

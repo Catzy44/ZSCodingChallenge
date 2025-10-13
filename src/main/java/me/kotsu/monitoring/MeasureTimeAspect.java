@@ -21,7 +21,7 @@ public class MeasureTimeAspect {
                 ? joinPoint.getSignature().toShortString()
                 : measureTime.value();
 
-        logger.info("Method {} executed in {} ms", tag, (end - start));
+        logger.info("{} executed in {} ms", tag, (end - start));
         return result;
     }
 }

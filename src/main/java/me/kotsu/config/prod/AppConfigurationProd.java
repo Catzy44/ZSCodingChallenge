@@ -6,36 +6,35 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 import me.kotsu.config.AppConfiguration;
-import me.kotsu.data.DataProviderFactory;
-import me.kotsu.data.file.FileDataProvider;
+import me.kotsu.data.DataProviderRegistry;
+import me.kotsu.data.DataProviderService;
 import me.kotsu.data.file.FileDataProviderConfig;
-import me.kotsu.data.ftp.FTPDataProvider;
 import me.kotsu.data.ftp.FTPDataProviderConfig;
-import me.kotsu.data.http.HTTPDataProvider;
 import me.kotsu.data.http.HTTPDataProviderConfig;
 import me.kotsu.parser.Parser;
-import me.kotsu.parser.json.JsonParser;
-import me.kotsu.sort.BubbleSortingAlhorithm;
-import me.kotsu.sort.SortingAlgorithm;
+import me.kotsu.parser.ParsersRegistry;
+import me.kotsu.sort.SortingAlgorithmsRegistry;
 import me.kotsu.sort.SortingService;
 
 public class AppConfigurationProd implements AppConfiguration {
-	public static final Charset STRING_DECODER_CHARSET = StandardCharsets.UTF_8;
-	public static final SortingAlgorithm SORTING_ALGORITHM = new BubbleSortingAlhorithm();
+	public final Charset STRING_DECODER_CHARSET = StandardCharsets.UTF_8;
 	
-	public DataProviderFactory buildFactory() {
-		return DataProviderFactory.builder()
-				.add(new FileDataProvider(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), StandardCharsets.UTF_8)))
-				.add(new HTTPDataProvider(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , StandardCharsets.UTF_8)))
-				.add(new FTPDataProvider(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , StandardCharsets.UTF_8)))
+	public DataProviderService buildFactory() {
+		return DataProviderService.builder()
+				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), STRING_DECODER_CHARSET)))
+				.add(DataProviderRegistry.HTTP.create(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , STRING_DECODER_CHARSET)))
+				.add(DataProviderRegistry.FTP.create(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , STRING_DECODER_CHARSET)))
 				.build();
 	}
 	
 	public Parser buildParser() {
-		return new JsonParser();
+		return ParsersRegistry.JSON.get();
 	}
 	
 	public SortingService buildSorter() {
-		return new SortingService(AppConfigurationProd.SORTING_ALGORITHM); 
+		return new SortingService(SortingAlgorithmsRegistry.BUBBLE.get()); 
 	}
+
+	@Override
+	public void cleanUp() {}
 }

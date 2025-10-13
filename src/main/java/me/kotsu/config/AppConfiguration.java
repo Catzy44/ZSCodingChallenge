@@ -1,11 +1,12 @@
 package me.kotsu.config;
 
-import me.kotsu.data.DataProviderFactory;
+import me.kotsu.data.DataProviderService;
 import me.kotsu.parser.Parser;
 import me.kotsu.sort.SortingService;
 
 public interface AppConfiguration {
-	public DataProviderFactory buildFactory();
+	public DataProviderService buildFactory();
 	public Parser buildParser();
 	public SortingService buildSorter();
+	public void cleanUp();
 }

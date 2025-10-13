@@ -9,6 +9,6 @@ public class Main {
 		AppConfiguration config = new AppConfigurationProd();
 		MainService main = new MainService(config);
 		System.out.println(main.start());
-		
+		config.cleanUp();
 	}
 }
