@@ -22,7 +22,7 @@ public class MainService {
 	 * @return sorted output and logs execution time.
 	 */
 	public String start() {
-		String data = config.buildFactory()
+		String data = config.buildDataProviderService()
 				.fetchFirstAvailableDataSource()
 				.orElseThrow();
 		

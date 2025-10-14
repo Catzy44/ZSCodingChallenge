@@ -17,13 +17,13 @@ import me.kotsu.sort.SortingAlgorithmsRegistry;
 import me.kotsu.sort.SortingService;
 
 public class AppConfigurationProd implements AppConfiguration {
-	public final Charset STRING_DECODER_CHARSET = StandardCharsets.UTF_8;
+	public final Charset decoderCharset = StandardCharsets.UTF_8;
 	
-	public DataProviderService buildFactory() {
+	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
-				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), STRING_DECODER_CHARSET)))
-				.add(DataProviderRegistry.HTTP.create(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , STRING_DECODER_CHARSET)))
-				.add(DataProviderRegistry.FTP.create(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , STRING_DECODER_CHARSET)))
+				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), decoderCharset)))
+				.add(DataProviderRegistry.HTTP.create(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , decoderCharset)))
+				.add(DataProviderRegistry.FTP.create(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , decoderCharset)))
 				.build();
 	}
 	

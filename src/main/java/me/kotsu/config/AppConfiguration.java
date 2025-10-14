@@ -5,7 +5,7 @@ import me.kotsu.parser.Parser;
 import me.kotsu.sort.SortingService;
 
 public interface AppConfiguration {
-	public DataProviderService buildFactory();
+	public DataProviderService buildDataProviderService();
 	public Parser buildParser();
 	public SortingService buildSorter();
 	public void cleanUp();

@@ -1,13 +1,13 @@
 package me.kotsu.config.test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import lombok.Getter;
 import me.kotsu.config.AppConfiguration;
 import me.kotsu.data.DataProviderService;
 import me.kotsu.data.file.FileDataProvider;
@@ -21,26 +21,34 @@ import me.kotsu.parser.ParsersRegistry;
 import me.kotsu.sort.SortingAlgorithmsRegistry;
 import me.kotsu.sort.SortingService;
 
+@Getter
 public class AppConfigurationTest implements AppConfiguration {
-	public final Charset STRING_DECODER_CHARSET = StandardCharsets.UTF_8;
+	public final Charset decoderCharset = StandardCharsets.UTF_8;
 	private Path listaTestFileTemp;
 	
 	public AppConfigurationTest() {
 		try {
 			listaTestFileTemp = Files.createTempFile(Math.random() + "_lista", ".tmp");
-			InputStream is = getClass().getResourceAsStream("lista.json");
 
-			Files.write(listaTestFileTemp, is.readAllBytes());
+			Files.write(listaTestFileTemp, getActualTestFileContent());
 		} catch (IOException e) {
 			throw new IllegalStateException("failed to copy test configuration", e);
 		}
 	}
+	
+	public void initializeTestFile() {
+		
+	}
+	
+	public byte[] getActualTestFileContent() throws IOException {
+		return getClass().getResourceAsStream("lista.json").readAllBytes();
+	}
 
-	public DataProviderService buildFactory() {
+	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
-				.add(new FileDataProvider(new FileDataProviderConfig(listaTestFileTemp, STRING_DECODER_CHARSET)))
-				.add(new HTTPDataProvider(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , STRING_DECODER_CHARSET)))
-				.add(new FTPDataProvider(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , STRING_DECODER_CHARSET)))
+				.add(new FileDataProvider(new FileDataProviderConfig(listaTestFileTemp, decoderCharset)))
+				.add(new HTTPDataProvider(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , decoderCharset)))
+				.add(new FTPDataProvider(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , decoderCharset)))
 				.build();
 	}
 	
