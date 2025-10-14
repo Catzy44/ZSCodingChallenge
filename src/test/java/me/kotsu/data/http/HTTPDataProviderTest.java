@@ -18,12 +18,12 @@ class HTTPDataProviderTest {
 
     private static final Charset DECODER_CHARSET = StandardCharsets.UTF_8;
     
-    private HTTPDataProviderTestHTTPServer testServer;
-    private HTTPDataProvider httpDataProvider;
+    private static HTTPDataProviderTestHTTPServer testServer;
+    private static HTTPDataProvider httpDataProvider;
     
 
     @BeforeAll
-    void setUp() throws IOException {
+    public static void setUp() throws IOException {
     	testServer = new HTTPDataProviderTestHTTPServer();
     	testServer.bootWithTestRoutesAndFiles();
     	
@@ -31,12 +31,12 @@ class HTTPDataProviderTest {
     }
 
     @AfterAll
-    void tearDown() {
+    public static void tearDown() {
     	testServer.kill();
     }
 
     @Test
-    void returnsCorrectFileContentIfPresent() throws IOException {
+    public void returnsCorrectFileContentIfPresent() throws IOException {
         Optional<String> dataFetched = httpDataProvider.fetch();
         assertTrue(dataFetched.isPresent(), "HTTPDataProvider should return data");
 
@@ -47,7 +47,7 @@ class HTTPDataProviderTest {
     }
 
     @Test
-    void returnsEmptyIfFileMissing() throws IOException {
+    public void returnsEmptyIfFileMissing() throws IOException {
         tearDown(); // symulacja braku serwera
         
         Optional<String> dataFetched = httpDataProvider.fetch();

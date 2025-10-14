@@ -13,7 +13,7 @@ public class AppUtils {
 	public static final String TEST_FILE_NAME = "lista.json";
 	
 	public static byte[] getFullTestFileContent() throws IOException {
-        try (var in = AppUtils.class.getResourceAsStream("lista.json")) {
+        try (var in = AppUtils.class.getResourceAsStream("/" + TEST_FILE_NAME)) {
             if (in == null) {
                 throw new IllegalStateException("missing resource: lista.json");
             }
@@ -21,7 +21,7 @@ public class AppUtils {
         }
     }
 	
-	public static void deleteWithContents(Path p) throws IOException {
+	public static void deleteWithContentsIfExists(Path p) throws IOException {
 		Files.walk(p).sorted(Comparator.reverseOrder()).forEach(f -> {
 			try {Files.delete(f);} catch (Exception ignored) {}
 		});
