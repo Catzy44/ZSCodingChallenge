@@ -19,6 +19,7 @@ import me.kotsu.sort.SortingService;
 public class AppConfigurationProd implements AppConfiguration {
 	public final Charset decoderCharset = StandardCharsets.UTF_8;
 	
+	@Override
 	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
 				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), decoderCharset)))
@@ -27,14 +28,13 @@ public class AppConfigurationProd implements AppConfiguration {
 				.build();
 	}
 	
+	@Override
 	public Parser buildParser() {
 		return ParsersRegistry.JSON.get();
 	}
 	
+	@Override
 	public SortingService buildSorter() {
 		return new SortingService(SortingAlgorithmsRegistry.BUBBLE.get()); 
 	}
-
-	@Override
-	public void cleanUp() {}
 }

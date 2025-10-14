@@ -8,5 +8,4 @@ public interface AppConfiguration {
 	public DataProviderService buildDataProviderService();
 	public Parser buildParser();
 	public SortingService buildSorter();
-	public void cleanUp();
 }

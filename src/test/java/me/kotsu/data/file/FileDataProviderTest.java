@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -15,31 +11,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import me.kotsu.AppUtils;
+import me.kotsu.config.test.AppConfigurationTest;
 
 class FileDataProviderTest {
-
-    private static final Charset DECODER_CHARSET = StandardCharsets.UTF_8;
-
-    private Path testFile;
+	private static AppConfigurationTest configTest = new AppConfigurationTest();
     private FileDataProvider fileProvider;
-
-    private Path createTempTestFile() throws IOException {
-        Path file = Files.createTempFile("lista_", ".tmp");
-        Files.write(file, AppUtils.getFullTestFileContent());
-        return file;
-    }
 
     @BeforeEach
     void setUp() throws IOException {
-        testFile = createTempTestFile();
-        fileProvider = new FileDataProvider(new FileDataProviderConfig(testFile, DECODER_CHARSET));
+    	configTest.getTestFile().place();
+        fileProvider = configTest.buildTestFileDataProvider();
     }
 
     @AfterEach
     void tearDown() throws IOException {
-        if (testFile != null) {
-            Files.deleteIfExists(testFile);
-        }
+    	configTest.getTestFile().delete();
     }
 
     @Test
@@ -48,7 +34,7 @@ class FileDataProviderTest {
         assertTrue(dataFetched.isPresent(), "FileDataProvider should return data");
 
         String fetched = dataFetched.get();
-        String expected = AppUtils.decodeBytesToString(AppUtils.getFullTestFileContent(), DECODER_CHARSET);
+        String expected = AppUtils.decodeBytesToString(AppUtils.getFullTestFileContent(), configTest.getDecoderCharset());
 
         assertEquals(expected, fetched, "fetched content should == file content");
     }

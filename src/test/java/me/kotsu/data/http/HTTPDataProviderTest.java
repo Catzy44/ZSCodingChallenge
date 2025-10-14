@@ -1,11 +1,12 @@
 package me.kotsu.data.http;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
@@ -13,26 +14,22 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import me.kotsu.AppUtils;
+import me.kotsu.config.test.AppConfigurationTest;
+import me.kotsu.exceptions.FetchException;
 
 class HTTPDataProviderTest {
-
-    private static final Charset DECODER_CHARSET = StandardCharsets.UTF_8;
-    
-    private static HTTPDataProviderTestHTTPServer testServer;
+	private static AppConfigurationTest configTest = new AppConfigurationTest();
     private static HTTPDataProvider httpDataProvider;
-    
 
     @BeforeAll
     public static void setUp() throws IOException {
-    	testServer = new HTTPDataProviderTestHTTPServer();
-    	testServer.bootWithTestRoutesAndFiles();
-    	
-    	httpDataProvider = new HTTPDataProvider(new HTTPDataProviderConfig(testServer.getTestFileURI(), 1000, DECODER_CHARSET));
+    	configTest.getTestHttpServer().bootWithTestRoutesAndFiles();
+    	httpDataProvider = configTest.buildTestHTTPDataProvider();
     }
 
     @AfterAll
     public static void tearDown() {
-    	testServer.kill();
+    	configTest.getTestHttpServer().kill();
     }
 
     @Test
@@ -41,16 +38,28 @@ class HTTPDataProviderTest {
         assertTrue(dataFetched.isPresent(), "HTTPDataProvider should return data");
 
         String fetched = dataFetched.get();
-        String expected = AppUtils.decodeBytesToString(AppUtils.getFullTestFileContent(), DECODER_CHARSET);
+        String expected = AppUtils.decodeBytesToString(AppUtils.getFullTestFileContent(), configTest.getDecoderCharset());
 
         assertEquals(expected, fetched, "fetched content should == file content");
     }
+    
+    @Test
+    public void returnsEmptyIfTheFileIsMissing() throws IOException, InterruptedException, URISyntaxException {
+    	HTTPDataProvider brokenProvider = new HTTPDataProvider(
+    			new HTTPDataProviderConfig(new URI(
+    					String.format("http://localhost:%d/nonExistingFile.json", configTest.getTestHttpServer().getPort())
+    			), 10 , configTest.getDecoderCharset())
+    	);
+    	
+        Optional<String> dataFetched = brokenProvider.fetch();
+        
+        assertTrue(dataFetched.isEmpty(), "HTTPDataProvider should return nothing and do not throw on non-existsnt file!");
+    }
 
     @Test
-    public void returnsEmptyIfFileMissing() throws IOException {
+    public void throwsIfTheServerIsDown() throws IOException {
         tearDown(); // symulacja braku serwera
         
-        Optional<String> dataFetched = httpDataProvider.fetch();
-        assertTrue(dataFetched.isEmpty(), "should return nothing if the server is down");
+        assertThrows(FetchException.class, () -> httpDataProvider.fetch(), "should throw if the server is down");
     }
 }

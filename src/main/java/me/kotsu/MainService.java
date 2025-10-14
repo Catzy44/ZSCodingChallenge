@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import me.kotsu.config.AppConfiguration;
+import me.kotsu.exceptions.ParsingException;
 import me.kotsu.sort.SortingService;
 
 public class MainService {
@@ -20,8 +21,9 @@ public class MainService {
 	 * 3. Sorts data using selected sorting algorithm.
 	 * 
 	 * @return sorted output and logs execution time.
+	 * @throws ParsingException 
 	 */
-	public String start() {
+	public String start() throws ParsingException {
 		String data = config.buildDataProviderService()
 				.fetchFirstAvailableDataSource()
 				.orElseThrow();

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import me.kotsu.AppUtils;
 import me.kotsu.data.DataProvider;
+import me.kotsu.exceptions.FetchException;
 
 public class FileDataProvider implements DataProvider<FileDataProviderConfig> {
 	private FileDataProviderConfig config;
@@ -15,21 +16,21 @@ public class FileDataProvider implements DataProvider<FileDataProviderConfig> {
 	}
 
 	@Override
-	public Optional<String> fetch() {
+	public Optional<String> fetch() throws FetchException {
 		if(config.path() == null) {
-			throw new IllegalArgumentException("provided path is null!");
+			return Optional.empty(); //no path provided - return empty
 		}
 		Path filePath = config.path();
 		
 		if(!Files.exists(filePath)) {
-			return Optional.empty();
+			return Optional.empty(); //no file - return empty
 		}
 		
 		try {
 	        byte[] allFileBytes = Files.readAllBytes(filePath);
 	        return Optional.of(AppUtils.decodeBytesToString(allFileBytes, config.decoderCharset()));
 	    } catch (IOException e) {
-	        return Optional.empty();
+	    	throw new FetchException("IO error reading file: ", e);
 	    }
 	}
 	

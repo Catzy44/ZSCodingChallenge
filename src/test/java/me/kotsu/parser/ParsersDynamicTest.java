@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import me.kotsu.exceptions.ParsingException;
+
 public class ParsersDynamicTest {
 	private static Stream<Parser> parsers() {
         return Arrays.stream(ParsersRegistry.values())
@@ -20,7 +22,7 @@ public class ParsersDynamicTest {
     @ParameterizedTest(name = "should correctly parse valid JSON using {0}")
     @MethodSource("parsers")
     @DisplayName("should correctly parse valid JSON with all registered parsers")
-    void shouldParseValidJson(Parser parser) {
+    void shouldParseValidJson(Parser parser) throws ParsingException {
         String json = "{\"elements\":[10, 13, -5, 50, 0]}";
         Optional<int[]> result = parser.parse(json);
 
@@ -31,7 +33,7 @@ public class ParsersDynamicTest {
     @ParameterizedTest(name = "should return empty Optional for malformed JSON using {0}")
     @MethodSource("parsers")
     @DisplayName("should return empty Optional for malformed JSON")
-    void shouldReturnEmptyForMalformedJson(Parser parser) {
+    void shouldReturnEmptyForMalformedJson(Parser parser) throws ParsingException {
         String malformedJson = "{\"elements\":[1,2,3}";
         Optional<int[]> result = parser.parse(malformedJson);
 
@@ -41,7 +43,7 @@ public class ParsersDynamicTest {
     @ParameterizedTest(name = "should return empty Optional for missing field using {0}")
     @MethodSource("parsers")
     @DisplayName("should return empty Optional for JSON without 'elements'")
-    void shouldReturnEmptyForMissingElements(Parser parser) {
+    void shouldReturnEmptyForMissingElements(Parser parser) throws ParsingException {
         String jsonWithoutField = "{\"data\":[1,2,3]}";
         Optional<int[]> result = parser.parse(jsonWithoutField);
 
@@ -51,7 +53,7 @@ public class ParsersDynamicTest {
     @ParameterizedTest(name = "should return empty Optional for null input using {0}")
     @MethodSource("parsers")
     @DisplayName("should return empty Optional for null input")
-    void shouldReturnEmptyForNullInput(Parser parser) {
+    void shouldReturnEmptyForNullInput(Parser parser) throws ParsingException {
         Optional<int[]> result = parser.parse(null);
 
         assertTrue(result.isEmpty());
@@ -60,7 +62,7 @@ public class ParsersDynamicTest {
     @ParameterizedTest(name = "should return empty Optional for null elements using {0}")
     @MethodSource("parsers")
     @DisplayName("should return empty Optional for JSON with null elements")
-    void shouldReturnEmptyForNullElements(Parser parser) {
+    void shouldReturnEmptyForNullElements(Parser parser) throws ParsingException {
         String json = "{\"elements\":null}";
         Optional<int[]> result = parser.parse(json);
 

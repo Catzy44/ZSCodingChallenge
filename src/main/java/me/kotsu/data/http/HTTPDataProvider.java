@@ -11,6 +11,7 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import me.kotsu.AppUtils;
 import me.kotsu.data.DataProvider;
+import me.kotsu.exceptions.FetchException;
 
 public class HTTPDataProvider implements DataProvider<HTTPDataProviderConfig> {
 	private HTTPDataProviderConfig config;
@@ -19,22 +20,29 @@ public class HTTPDataProvider implements DataProvider<HTTPDataProviderConfig> {
 	}
 
 	@Override
-	public Optional<String> fetch() {
+	public Optional<String> fetch() throws FetchException {
+		if(config == null || config.url() == null) {
+			return Optional.empty();
+		}
 		try (CloseableHttpClient client = HttpClients.createDefault()) {//samo pozamyka co trzeba
 			
 			HttpGet request = new HttpGet(config.url());
 			try (ClassicHttpResponse response = client.executeOpen(null, request, null)) {
-				if(!isSuccessfull(response)) {
-					return Optional.empty();
-				}
+				int code = response.getCode();
 				
-				return readResponseEntity(response);
+	            if (code == 204 || code == 404 || code == 410 || response == null || response.getEntity() == null) {
+	            	return Optional.empty(); //no data - return empty response
+	            }
+
+	            if (code < 200 || code >= 300) {
+	            	throw new FetchException("HTTP " + code, null); //error - throw
+	            }
+				
+				return readResponseEntity(response); //we have data - return
 			}
-		} catch (IOException ignored) {
-			//e.printStackTrace();
+		} catch (IOException e) {
+			throw new FetchException("HTTP exception: ", e);//IO error - throw
 		}
-		
-		return Optional.empty();
 	}
 	
 	private Optional<String> readResponseEntity(ClassicHttpResponse response) throws IOException {
@@ -43,12 +51,4 @@ public class HTTPDataProvider implements DataProvider<HTTPDataProviderConfig> {
             return Optional.of(AppUtils.decodeBytesToString(allFileBytes, config.decoderCharset()));
         }
     }
-	
-	private boolean isSuccessfull(ClassicHttpResponse response) {
-		if(response == null || response.getEntity() == null) {
-			return false;
-		}
-		int responseStatusCode = response.getCode();
-		return responseStatusCode >= 200 && responseStatusCode < 300; // 200-300 -> OK
-	}
 }
