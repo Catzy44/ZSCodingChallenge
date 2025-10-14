@@ -23,18 +23,9 @@ class FileDataProviderTest {
     private Path testFile;
     private FileDataProvider fileProvider;
 
-    private byte[] getFullTestFileContent() throws IOException {
-        try (var in = getClass().getResourceAsStream("lista.json")) {
-        	if (in == null) {
-                throw new IllegalStateException("missing resource: lista.json");
-            }
-            return in.readAllBytes();
-        }
-    }
-
     private Path createTempTestFile() throws IOException {
         Path file = Files.createTempFile("lista_", ".tmp");
-        Files.write(file, getFullTestFileContent());
+        Files.write(file, AppUtils.getFullTestFileContent());
         return file;
     }
 
@@ -57,7 +48,7 @@ class FileDataProviderTest {
         assertTrue(dataFetched.isPresent(), "FileDataProvider should return data");
 
         String fetched = dataFetched.get();
-        String expected = AppUtils.decodeBytesToString(getFullTestFileContent(), DECODER_CHARSET);
+        String expected = AppUtils.decodeBytesToString(AppUtils.getFullTestFileContent(), DECODER_CHARSET);
 
         assertEquals(expected, fetched, "fetched content should == file content");
     }
