@@ -25,7 +25,7 @@ public class AppConfigurationProd implements AppConfiguration {
 	@Override
 	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
-				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("C:\\Users\\catzy\\Desktop\\lista.json"), decoderCharset)))
+				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), decoderCharset)))
 				.add(DataProviderRegistry.HTTP.create(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , decoderCharset)))
 				.add(DataProviderRegistry.FTP.create(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , decoderCharset)))
 				.build();
