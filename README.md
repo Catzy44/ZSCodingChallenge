@@ -2,7 +2,7 @@
 
 Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zostanie to uznane za "Over-engineering", ale po rozmowie rekrutacyjnej uznałem że właśnie tak powinienem podejść do problemu.  
 
-**Nie tworzyłem DDD**, zastosowałem zamiast niego czyste separacje techniczne. **DDD** by było przesadą.
+**Nie tworzyłem DDD**, ale konsekwentnie trzymałem się **SOLID** i zastosowałem po prostu czyste separacje techniczne.
 
 **NIE wykorzystałem Spring'a**, uznałem to za zbyteczne i nie było żadnej mowy o tym w instrukcji.
 
