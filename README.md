@@ -6,9 +6,9 @@ Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zost
 
 **NIE wykorzystałem Spring'a**, uznałem to za zbyteczne i nie było żadnej mowy o tym w instrukcji.
 
-Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na Springu.
+Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na **Springu**, z **DDD**.
 
-Poświęcony czas to około 6 godzin, w kilku blokach.
+Poświęcony czas to około 5-6 godzin, w kilku blokach.
 
 # Architektura programu
 
