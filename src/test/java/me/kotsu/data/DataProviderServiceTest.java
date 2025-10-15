@@ -53,7 +53,7 @@ public class DataProviderServiceTest {
 		String invalidData1 = "{\"elements\":[10,13,-5,50,0]INVALIDSYNTAX";
 		String validData = "{\"elements\":[10,13,-5,50,0]}";// <- shoudl return this one!
 		String validData1 = "{\"elements\":[11,14,-5,50,0]}";
-		String invalidData2 = "{\"elemXXXXXXents\":[10,13,-5,50,0]}";
+		String invalidData2 = "{\"elemINVALIDFORMATents\":[10,13,-5,50,0]}";
 		
 		Optional<int[]> decodedValidDataItShouldReturn = testParser.parse(validData);
 		assertTrue(decodedValidDataItShouldReturn.isPresent(), "the FIRST valid value should be successfully parsed");

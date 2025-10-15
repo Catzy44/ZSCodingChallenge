@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import me.kotsu.config.AppConfiguration;
 import me.kotsu.exceptions.FetchException;
 import me.kotsu.exceptions.ParsingException;
+import me.kotsu.formatter.Formatter;
 import me.kotsu.parser.Parser;
 import me.kotsu.sort.Sorter;
 
@@ -34,14 +35,13 @@ public class MainService {
     public String start() throws FetchException, ParsingException {
         Parser parser = config.buildParser();
         Sorter sorter = config.buildSorter();
+        Formatter formatter = config.buildFormatter();
         
         return config.buildDataProviderService()
         		.streamValidParsedData(parser)
-                .findFirst() //the first one that passed Fetching and Parsing
-                .map(elements -> {//sort Hah i can stream that too!
-                    sorter.sort(elements);
-                    return formatOutput(elements);
-                })
+        		.peek(sorter::sort)
+                .map(formatter::format)
+                .findFirst()
                 .orElseThrow(() -> new FetchException("Cannot find any source with a valid data!"));
     }
     

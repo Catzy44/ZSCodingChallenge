@@ -15,6 +15,8 @@ import me.kotsu.data.ftp.FTPDataProviderTestFTPServer;
 import me.kotsu.data.http.HTTPDataProvider;
 import me.kotsu.data.http.HTTPDataProviderConfig;
 import me.kotsu.data.http.HTTPDataProviderTestHTTPServer;
+import me.kotsu.formatter.Formatter;
+import me.kotsu.formatter.FormattersRegistry;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
@@ -68,5 +70,10 @@ public class AppConfigurationTest implements AppConfiguration {
 	@Override
 	public Sorter buildSorter() {
 		return new MeasureSorterTimeDecorator(SortersRegistry.BUBBLE.get()); 
+	}
+	
+	@Override
+	public Formatter buildFormatter() {
+		return FormattersRegistry.SIMPLE.get();
 	}
 }

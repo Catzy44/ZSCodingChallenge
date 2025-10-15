@@ -11,6 +11,8 @@ import me.kotsu.data.DataProviderService;
 import me.kotsu.data.file.FileDataProviderConfig;
 import me.kotsu.data.ftp.FTPDataProviderConfig;
 import me.kotsu.data.http.HTTPDataProviderConfig;
+import me.kotsu.formatter.Formatter;
+import me.kotsu.formatter.FormattersRegistry;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
@@ -37,5 +39,10 @@ public class AppConfigurationProd implements AppConfiguration {
 	@Override
 	public Sorter buildSorter() {
 		return new MeasureSorterTimeDecorator(SortersRegistry.BUBBLE.get()); 
+	}
+
+	@Override
+	public Formatter buildFormatter() {
+		return FormattersRegistry.SIMPLE.get();
 	}
 }
