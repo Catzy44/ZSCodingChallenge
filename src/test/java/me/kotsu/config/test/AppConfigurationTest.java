@@ -2,19 +2,23 @@ package me.kotsu.config.test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import me.kotsu.config.AppConfiguration;
+import me.kotsu.data.DataProvider;
 import me.kotsu.data.DataProviderService;
 import me.kotsu.data.file.FileDataProvider;
 import me.kotsu.data.file.FileDataProviderConfig;
-import me.kotsu.data.file.FileDataProviderTestFile;
 import me.kotsu.data.ftp.FTPDataProvider;
 import me.kotsu.data.ftp.FTPDataProviderConfig;
-import me.kotsu.data.ftp.FTPDataProviderTestFTPServer;
 import me.kotsu.data.http.HTTPDataProvider;
 import me.kotsu.data.http.HTTPDataProviderConfig;
-import me.kotsu.data.http.HTTPDataProviderTestHTTPServer;
+import me.kotsu.data.source.FTPDataSource;
+import me.kotsu.data.source.FileDataSource;
+import me.kotsu.data.source.HTTPDataSource;
+import me.kotsu.data.source.TestDataSourcesRegistry;
 import me.kotsu.formatter.Formatter;
 import me.kotsu.formatter.FormattersRegistry;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
@@ -29,36 +33,39 @@ public class AppConfigurationTest implements AppConfiguration {
 	
 	/* TEST RESOURCES - INITIALIZED BUT NOT STARTED */
 	/* THIS TEST SERVERS ARE RESPONSIBLE FOR INITIALIZING TEST RESOURCES*/
-	private HTTPDataProviderTestHTTPServer testHttpServer = new HTTPDataProviderTestHTTPServer();
-	private FTPDataProviderTestFTPServer testFtpServer = new FTPDataProviderTestFTPServer();
-	private FileDataProviderTestFile testFile = new FileDataProviderTestFile();
 	
-	/*  */
-	public FileDataProvider buildTestFileDataProvider() {
-		return new FileDataProvider(new FileDataProviderConfig(testFile.getFile(), decoderCharset));
-	}
 	
-	public HTTPDataProvider buildTestHTTPDataProvider() {
-		return new HTTPDataProvider(new HTTPDataProviderConfig(testHttpServer.getTestFileURI(), 10 , decoderCharset));
-	}
-
-	public FTPDataProvider buildTestFTPDataProvider() {
-		return new FTPDataProvider(new FTPDataProviderConfig(
+	/* THIS ARE DATA PROVIDERS - RESPONSIBLE FOR FETCHING TEST RESOURCES FROM TEST SERVERS */
+	private List<DataProvider<?>> testProviders = new ArrayList<DataProvider<?>>();
+	public void buildTestDataProviders(boolean shouldFilesBeMissing) {
+		FileDataSource file = (FileDataSource) TestDataSourcesRegistry.FILE.get();
+		HTTPDataSource http = (HTTPDataSource) TestDataSourcesRegistry.HTTP.get();
+		FTPDataSource ftp = (FTPDataSource) TestDataSourcesRegistry.FTP.get();
+		
+		testProviders.clear();
+		
+		testProviders.add(new FileDataProvider(new FileDataProviderConfig(
+				shouldFilesBeMissing ? file.getFile().getParent().resolve("nonExisting.json") : file.getFile()
+				, decoderCharset)));	
+		
+		testProviders.add(new HTTPDataProvider(new HTTPDataProviderConfig(
+				shouldFilesBeMissing ? http.getTestFileURI().resolve("nonExisting.json") : http.getTestFileURI()
+				, 10 , decoderCharset)));
+		
+		testProviders.add(new FTPDataProvider(new FTPDataProviderConfig(
 				"localhost", 
-				testFtpServer.getServerPort(), 
-				testFtpServer.getUsername(), 
-				testFtpServer.getPassword(), 
-				"/"+testFtpServer.getTestFileName(), 
+				ftp.getServerPort(), 
+				ftp.getUsername(), 
+				ftp.getPassword(), 
+				shouldFilesBeMissing ? "/nonExisting.json" : "/"+ftp.getTestFileName(), 
 				decoderCharset
-		));
+		)));
 	}
-
+	
 	@Override
 	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
-				.add(buildTestFileDataProvider())
-				.add(buildTestHTTPDataProvider())
-				.add(buildTestFTPDataProvider())
+				.addAll(testProviders)
 		.build();
 	}
 	

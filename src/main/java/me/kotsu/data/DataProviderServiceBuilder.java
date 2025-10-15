@@ -16,4 +16,9 @@ public class DataProviderServiceBuilder {
     public DataProviderService build() {
         return new DataProviderService(Collections.unmodifiableList(selectedDataProviders)); //robię już immutable bo builder ten tego...
     }
+
+	public DataProviderServiceBuilder addAll(List<DataProvider<?>> testProviders) {
+		selectedDataProviders.addAll(testProviders);
+		return this;
+	}
 }

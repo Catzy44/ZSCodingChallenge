@@ -1,4 +1,4 @@
-package me.kotsu.data.http;
+package me.kotsu.data.source;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,14 +9,16 @@ import com.sun.net.httpserver.HttpServer;
 
 import lombok.Getter;
 import me.kotsu.AppUtils;
+import me.kotsu.data.http.HTTPDataProvider;
 
 @Getter
-public class HTTPDataProviderTestHTTPServer {
+public class HTTPDataSource implements TestDataSource {
 	private static HttpServer server;
     private URI testFileURI;
     private int port;
     
-	public void bootWithTestRoutesAndFiles() throws IOException {
+    @Override
+	public void enable() throws IOException {
     	//init serwera na dowolnym WOLNYM porcie...
     	server = HttpServer.create(new InetSocketAddress(0), 0);
         port = server.getAddress().getPort();
@@ -34,10 +36,22 @@ public class HTTPDataProviderTestHTTPServer {
         server.start();
         testFileURI = URI.create("http://localhost:" + port + "/lista.json");
     }
-	public void kill() {
+    
+    @Override
+	public void disable() {
     	if(server != null) {
     		server.stop(0);
     	}
         server = null;//niech go tam GC posprząta szybciutko
     }
+
+	@Override
+	public boolean excludeFromThrowingTest() {
+		return false;
+	}
+	
+	@Override
+	public Class<?> dataProviderClass() {
+		return HTTPDataProvider.class;
+	}
 }

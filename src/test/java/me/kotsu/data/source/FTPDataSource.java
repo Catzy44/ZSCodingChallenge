@@ -1,4 +1,4 @@
-package me.kotsu.data.ftp;
+package me.kotsu.data.source;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +16,10 @@ import org.apache.ftpserver.usermanager.impl.PropertiesUserManager;
 
 import lombok.Getter;
 import me.kotsu.AppUtils;
+import me.kotsu.data.ftp.FTPDataProvider;
 
 @Getter
-public class FTPDataProviderTestFTPServer {
+public class FTPDataSource implements TestDataSource {
 	private static FtpServer server;
 	private String serverDefaultListener = "default";
 	private Path serverRootDirTemp;
@@ -29,7 +30,8 @@ public class FTPDataProviderTestFTPServer {
 	private final String username = "test";
 	private final String password = "testpass";
 	    
-	public void bootWithTestRoutesAndFiles() throws IOException, FtpException {
+	@Override
+	public void enable() throws IOException, FtpException {
 		serverRootDirTemp = Files.createTempDirectory("ZAiKS_FTP_TEST_" + Math.random()); // testowy root tymczasowego serwera FTP
 
 		byte[] bytes = AppUtils.getFullTestFileContent();
@@ -59,11 +61,22 @@ public class FTPDataProviderTestFTPServer {
 		serverPort = serverFactory.getListener(serverDefaultListener).getPort();
 	}
 
-	public void kill() throws IOException, InterruptedException {
+	@Override
+	public void disable() throws IOException, InterruptedException {
 		if (server != null) {
 			server.stop();
 		}
 		server = null;
 		//nie usuwam pliku tyczasowego bo system operacyjny sam to zrobi
+	}
+	
+	@Override
+	public boolean excludeFromThrowingTest() {
+		return false;
+	}
+	
+	@Override
+	public Class<?> dataProviderClass() {
+		return FTPDataProvider.class;
 	}
 }
