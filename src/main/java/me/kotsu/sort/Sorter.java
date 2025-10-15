@@ -2,12 +2,12 @@ package me.kotsu.sort;
 
 public interface Sorter {
 	/**
-	 * Provides data from different sources (file, HTTP, FTP, etc...
+	 * Sorts numerical data using a selected algorithm.
 	 *
 	 * Behavior:
-	 * - File exists: returns data in Optional<>
-	 * - File does not exist: returns empty Optional<>
-	 * - IO/server/client error: throws FetchException with original exception
+	 * - Sorting successful: data sorted correctly
+	 * - Ball lightning enters the office and fries the computer: throws SortingException
+	 * - Any other unexpected situation: throws SortingException
 	 */
 	void sort(int[] data);
 }

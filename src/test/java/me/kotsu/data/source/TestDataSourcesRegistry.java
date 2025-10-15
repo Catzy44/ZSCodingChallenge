@@ -43,7 +43,7 @@ public enum TestDataSourcesRegistry {
     		.map(Class::getName)
     		.collect(Collectors.toUnmodifiableSet());
     	
-    	List<Class<?>> list = DataProviderRegistry.getClasses()
+    	List<Class<?>> list = DataProviderRegistry.getAllClasses()
     			.filter(c -> excludedProvidersClasses.contains(c.getName()))
     			.toList();
     	

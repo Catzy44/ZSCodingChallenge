@@ -13,14 +13,14 @@ public enum DataProviderRegistry {
 	HTTP(HTTPDataProvider.class),
 	FTP(FTPDataProvider.class);
 
-	private final Class<? extends DataProvider<?>> classToCreate;
+	private final Class<? extends DataProvider<?>> selectedClass;
 
 	DataProviderRegistry(Class<? extends DataProvider<?>> class1) {
-        this.classToCreate = class1;
+        this.selectedClass = class1;
     }
 	
-	private Class<?> get() {
-        return classToCreate;
+	private Class<?> getAsClass() {
+        return selectedClass;
     }
 
     /**
@@ -28,13 +28,13 @@ public enum DataProviderRegistry {
      */
     public DataProvider<?> create(DataProviderConfig config) {
         try {
-			return classToCreate.getConstructor(config.getClass()).newInstance(config);
+			return selectedClass.getConstructor(config.getClass()).newInstance(config);
 		} catch (Exception e) {
 			throw new RuntimeException("failed to instantiate DataProvider class", e);
 		}
     }
     
-    public static Stream<Class<?>> getClasses() {
-        return Arrays.stream(DataProviderRegistry.values()).map(DataProviderRegistry::get);
+    public static Stream<Class<?>> getAllClasses() {
+        return Arrays.stream(DataProviderRegistry.values()).map(DataProviderRegistry::getAsClass);
     }
 }
