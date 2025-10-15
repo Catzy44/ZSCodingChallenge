@@ -15,12 +15,12 @@ public class MeasureSorterTimeDecorator implements Sorter {
 
 	@Override
 	public void sort(int[] data) {
-		String pName = sorter.getClass().toString();
+		String sorterClassName = sorter.getClass().toString();
 		long start = System.currentTimeMillis();
 		
 		sorter.sort(data);
 		
 		long end = System.currentTimeMillis();
-		logger.info(String.format("Sorter %s executed in %d ms", pName, (end - start)));
+		logger.info(String.format("Sorter %s executed in %d ms", sorterClassName, (end - start)));
 	}
 }

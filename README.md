@@ -1,12 +1,56 @@
-Przemysław Witczak - Recruitment Task for S.R.
+#Zadanie rekrutacyjne dla Z...S Przemysław Witczak
 
-I used the basic tools I work with on a daily basis:
-- Eclipse
-- Gradle
-- Project Lombok
-- JUnit
+Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zostanie to uznane za "Over-engineering", ale po rozmowie rekrutacyjnej uznałem że właśnie tak powinienem podejść do problemu.
 
-Following TDD, as described in the instructions, I first created blind tests for the entire architecture and only then moved on to the implementation. 
-Naturally, the tests were later adjusted, since there were minor changes to the initial concept, as well as a few small oversights on my part.
+**NIE wykorzystałem frameworka Spring**, uznałem to za zbyteczne i nie było żadnej mowy o tym w instrukcji.
 
-The instructions did not mention a main method, but I decided to include it to provide a final look at the program's output.
+Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na Springu.
+
+#Architektura programu
+
+DataProvidery, Parsery oraz Sortery to elementy abstrakcyjne - interfejsy.  
+Dla każdego z tych interfejsów istnieje Registry zawierający wszystkie jego implementacje.  
+Podczas dodawania nowych implementacji należy uzupełnić Registry.  
+
+Umożliwia to szybkie przełączanie implementacji za pomocą konfiguracji, oraz zbiorowe testowanie wszystkich implementacji naraz.
+
+Konfiguracja aplikacji - z których implementacji ma akurat korzystać jest "IN-CODE":  
+* me.kotsu.config.prod.AppConfigurationProd.java
+	
+Konfiguracja również jest abstrakcyjna, istnieje też druga implementacja konfiguracji, do testów automatycznych.  
+
+
+Główny przepływ danych następuje w Serwisie:  
+* me.kotsu.MainService.java
+
+Punkt wejściowy aplikacji znajduje się w:  
+* me.kotsu.Main.java
+
+#Zachowanie programu
+(Wrzuciłem to też w JavaDoc)
+
+Zachowanie DataProviderów:  
+a) Plik istnieje - zwraca plik w Optional<>  
+b) Plik nie istnieje - zwraca pusty Optional<>  
+c) Błąd IO, błąd serwera, błąd klienta - wyjątek FetchException zawierający orginalny wyjątek  
+
+Zachowanie Parserów:  
+a) Parsowanie udane - zwraca zdekodowane obiekty w Optional<>  
+b) Brak danych do parsowania - pusty Optional<>  
+b) Parsowanie nieudane - zwraca wyjątek ParsingException j.w.  
+
+Zachowanie Sorterów:  
+a) Sortowanie udane - zwraca posortowany Optional<>  
+b) Piorun kulisty wleciał do biura, trafił w komputer i sortowanie siadło - zwraca SortingException j.w.  
+(czyli każda nieprzewidziana sytuacja skutkuje SortingException)
+
+Mierzenie czasu zostało całkowicie oddzielone od logiki i ma miejsce za pomocą Aspektów.  
+Nałożony na metodę Aspekt opatula ją i mierzy czas jej wykonywania, po czym loguje go do konsoli.
+
+Testy automatyczne sprawdzają zachowanie wszystkich implementacji danego interfejsu, zbierając je z Registry.  
+Testowane są Sortery, Parsery i DataProvidery.  
+Stawiane są proste serwery HTTP i FTP do testowania tych implementacji DataProviderów.
+
+W instrukcji napisano, aby pobrać gotowe implementacje algorytmów sortujących.  
+Postanowiłem również wygenerować do nich półautomatycznie testy za pomocą LLM, w celu przyspieszenia pracy i zachowania spójności stylu testów.  
+To jedyne miejsce w aplikacji w którym wykorzystałem LLM. Reszta została napisana ręcznie, bez wspomagaczy.
