@@ -57,7 +57,7 @@ Zachowanie Formatterów:
 a) Formatowanie udane - zwraca string  
 b) null na wejściu - zwraca wyjątek
 
-Mierzenie czasu zostało całkowicie oddzielone od logiki i miało mieć miejsce za pomocą **Aspektów**/**Anotacji**.  
+Mierzenie czasu całkowicie oddzieliłem od logiki. Chciałem je zrobić za pomocą **Aspektów**/**Anotacji**.  
 Ale bardzo mi się stawiał **AspectJ** bez **Springa** na nowym **JVM**, więc zrezygnowałem z tego i postawiłem na prosty **Dekorator**.  
 **Dekorator** ten implementuje ten sam interfejs i jest wstrzykiwany w konfiguracji.  
 Można go bardzo łatwo i szybko wyłączyć lub włączyć.
