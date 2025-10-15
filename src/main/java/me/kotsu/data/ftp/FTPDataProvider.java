@@ -65,7 +65,7 @@ public class FTPDataProvider implements DataProvider<FTPDataProviderConfig> {
 			String fileContent = AppUtils.decodeBytesToString(fileBytes.get(), config.decoderCharset());
 			return Optional.of(fileContent);
 		} catch (IOException e) {
-			throw new FetchException("fetching FTP failed! ",e);
+			throw new FetchException("Fetching FTP failed! ",e);
 		}
 	}
 }

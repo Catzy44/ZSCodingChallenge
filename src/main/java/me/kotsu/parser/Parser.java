@@ -6,4 +6,5 @@ import me.kotsu.exceptions.ParsingException;
 
 public interface Parser {
 	public Optional<int[]> parse(String data) throws ParsingException;
+	public Optional<String> encode(int[] data);
 }

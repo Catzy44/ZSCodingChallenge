@@ -7,11 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Aspect
-public class MeasureTimeAspect {
-	private static final Logger logger = LoggerFactory.getLogger(MeasureTimeAspect.class);
+public class __MeasureTimeAspect {
+	private static final Logger logger = LoggerFactory.getLogger(__MeasureTimeAspect.class);
 
     @Around("@annotation(measureTime)")
-    public Object measureExecutionTime(ProceedingJoinPoint joinPoint, MeasureTime measureTime) throws Throwable {
+    public Object measureExecutionTime(ProceedingJoinPoint joinPoint, __MeasureTime measureTime) throws Throwable {
         long start = System.currentTimeMillis();
 
         Object result = joinPoint.proceed();
@@ -21,7 +21,7 @@ public class MeasureTimeAspect {
                 ? joinPoint.getSignature().toShortString()
                 : measureTime.value();
 
-        logger.info("{} executed in {} ms", tag, (end - start));
+        logger.info("Method {} executed in {} ms", tag, (end - start));
         return result;
     }
 }

@@ -3,6 +3,7 @@ package me.kotsu.parser.json;
 import java.util.Optional;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import me.kotsu.exceptions.ParsingException;
 import me.kotsu.parser.Parser;
@@ -20,9 +21,17 @@ public class JsonParser implements Parser {
                 return Optional.empty();
             }
 			return Optional.of(dataWrapperDTO.elements());
-		} catch(Exception e) {
-			throw new ParsingException("Parsing failed:", e);
+		} catch(JsonSyntaxException e) {
+			throw new ParsingException("Parsing failed", e);
 		}
 	}
 
+	@Override
+	public Optional<String> encode(int[] data) {
+	    if (data == null) {
+	        return Optional.empty();
+	    }
+	    DataWrapperDTO dto = new DataWrapperDTO(data);
+	    return Optional.of(gson.toJson(dto));
+	}
 }

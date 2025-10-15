@@ -35,13 +35,13 @@ public class HTTPDataProvider implements DataProvider<HTTPDataProviderConfig> {
 	            }
 
 	            if (code < 200 || code >= 300) {
-	            	throw new FetchException("HTTP " + code, null); //error - throw
+	            	throw new FetchException("Fetching HTTP failed: HTTP " + code, null); //error - throw
 	            }
 				
 				return readResponseEntity(response); //we have data - return
 			}
 		} catch (IOException e) {
-			throw new FetchException("HTTP exception: ", e);//IO error - throw
+			throw new FetchException("Fetching HTTP failed: ", e);//IO error - throw
 		}
 	}
 	

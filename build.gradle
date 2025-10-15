@@ -1,7 +1,27 @@
 plugins {
+	id 'application'
 	id 'java'
 	id("io.freefair.aspectj.post-compile-weaving") version "9.0.0"
-	//id "io.freefair.aspectj" version "9.0.0"
+}
+
+application {
+    mainClass = 'me.kotsu.Main'
+}
+
+run {
+    doFirst {
+        def weaverJar = configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }
+        if (weaverJar == null) {
+            throw new GradleException("aspectjweaver.jar not found in runtimeClasspath")
+        }
+        //jvmArgs "-javaagent:${weaverJar.absolutePath}"
+        jvmArgs(
+            "-javaagent:${weaverJar.absolutePath}",
+            "--add-opens=java.base/java.lang=ALL-UNNAMED",
+            "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED",
+            "--add-opens=java.base/sun.misc=ALL-UNNAMED"
+        )
+    }
 }
 
 group = 'me.kotsu'
@@ -23,6 +43,9 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.slf4j:slf4j-api:2.0.16'
+    implementation 'ch.qos.logback:logback-classic:1.5.7'
+
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	

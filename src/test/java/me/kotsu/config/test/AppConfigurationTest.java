@@ -15,10 +15,11 @@ import me.kotsu.data.ftp.FTPDataProviderTestFTPServer;
 import me.kotsu.data.http.HTTPDataProvider;
 import me.kotsu.data.http.HTTPDataProviderConfig;
 import me.kotsu.data.http.HTTPDataProviderTestHTTPServer;
+import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
+import me.kotsu.sort.SortingAlgorithm;
 import me.kotsu.sort.SortingAlgorithmsRegistry;
-import me.kotsu.sort.SortingService;
 
 @Getter
 public class AppConfigurationTest implements AppConfiguration {
@@ -65,7 +66,7 @@ public class AppConfigurationTest implements AppConfiguration {
 	}
 	
 	@Override
-	public SortingService buildSorter() {
-		return new SortingService(SortingAlgorithmsRegistry.BUBBLE.get()); 
+	public SortingAlgorithm buildSorter() {
+		return new MeasureSorterTimeDecorator(SortingAlgorithmsRegistry.BUBBLE.get()); 
 	}
 }
