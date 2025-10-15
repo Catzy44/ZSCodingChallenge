@@ -1,8 +1,10 @@
 # Zadanie rekrutacyjne dla Z...S Przemysław Witczak
 
-Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zostanie to uznane za "Over-engineering", ale po rozmowie rekrutacyjnej uznałem że właśnie tak powinienem podejść do problemu.
+Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zostanie to uznane za "Over-engineering", ale po rozmowie rekrutacyjnej uznałem że właśnie tak powinienem podejść do problemu.  
 
-**NIE wykorzystałem frameworka Spring**, uznałem to za zbyteczne i nie było żadnej mowy o tym w instrukcji.
+**Nie tworzyłem DDD**, zastosowałem zamiast niego czyste separacje techniczne. **DDD** by było przesadą.
+
+**NIE wykorzystałem Spring'a**, uznałem to za zbyteczne i nie było żadnej mowy o tym w instrukcji.
 
 Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na Springu.
 
