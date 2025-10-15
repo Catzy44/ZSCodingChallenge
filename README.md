@@ -8,11 +8,14 @@ Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby b
 
 # Architektura programu
 
-DataProvidery, Parsery oraz Sortery to elementy abstrakcyjne - interfejsy.  
-Dla każdego z tych interfejsów istnieje Registry zawierający wszystkie jego implementacje.  
-Podczas dodawania nowych implementacji należy uzupełnić Registry.  
+Projekt opiera się na buildsystemie **Gradlew**. To mój ulbiony, ale przejście na inny to dla mnie nie problem.
+Starałem się korzystać z **nowoczesnych API Javy** oraz w kilku miejscach wykorzystałem **Project Lombok**
 
-Umożliwia to szybkie przełączanie implementacji za pomocą konfiguracji, oraz zbiorowe testowanie wszystkich implementacji naraz.
+**DataProvidery**, **Parsery** oraz **Sortery** to elementy **abstrakcyjne** - interfejsy.  
+Dla każdego z tych interfejsów istnieje **Registry** zawierający wszystkie jego implementacje.  
+**Podczas dodawania nowych implementacji należy uzupełnić Registry**.  
+
+**Umożliwia to** szybkie przełączanie implementacji za pomocą konfiguracji, oraz zbiorowe **testowanie wszystkich implementacji naraz**.
 
 Konfiguracja aplikacji - z których implementacji ma akurat korzystać jest "IN-CODE":  
 * me.kotsu.config.prod.AppConfigurationProd.java
@@ -20,10 +23,10 @@ Konfiguracja aplikacji - z których implementacji ma akurat korzystać jest "IN-
 Konfiguracja również jest abstrakcyjna, istnieje też druga implementacja konfiguracji, do testów automatycznych.  
 
 
-Główny przepływ danych następuje w Serwisie:  
+Główny przepływ danych następuje w **Serwisie**:  
 * me.kotsu.MainService.java
 
-Punkt wejściowy aplikacji znajduje się w:  
+**Punkt wejściowy** aplikacji znajduje się w:  
 * me.kotsu.Main.java
 
 # Zachowanie programu
