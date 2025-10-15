@@ -63,7 +63,8 @@ Można go bardzo łatwo i szybko wyłączyć lub włączyć.
 # Testy
 
 Testy automatyczne sprawdzają zachowanie wszystkich implementacji danego interfejsu, zbierając je z Registry.  
-Testowane są Sortery, Parsery i DataProvidery.  
+Testowane są Sortery, Parsery,  DataProvidery I Formattery.  
+Z uwagi na budowę projektu nie są testowane poszczególne implementacje.  
 Stawiane są proste serwery HTTP i FTP do testowania tych implementacji DataProviderów.
 
 W instrukcji napisano, aby pobrać gotowe implementacje algorytmów sortujących.  
