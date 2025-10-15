@@ -8,8 +8,10 @@ Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby b
 
 # Architektura programu
 
-Projekt opiera się na buildsystemie **Gradlew**. To mój ulbiony, ale przejście na inny to dla mnie nie problem.
-Starałem się korzystać z **nowoczesnych API Javy** oraz w kilku miejscach wykorzystałem **Project Lombok**
+Projekt opiera się na buildsystemie **Gradlew**. To mój ulbiony, ale przejście na inny to dla mnie nie problem.  
+Starałem się korzystać z **nowoczesnych API Javy** oraz w kilku miejscach wykorzystałem **Project Lombok**  
+Jako bibliotekę JSON wybrałem **Gson**, a do testów automatycznych **JUnit5**  
+Wykorzystałem również **Apache Commons**'y (**NET**), **Apache FTP** oraz **slf4j**
 
 **DataProvidery**, **Parsery** oraz **Sortery** to elementy **abstrakcyjne** - interfejsy.  
 Dla każdego z tych interfejsów istnieje **Registry** zawierający wszystkie jego implementacje.  
