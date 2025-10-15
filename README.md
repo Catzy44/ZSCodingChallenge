@@ -19,16 +19,16 @@ Dla każdego z tych interfejsów istnieje **Registry** zawierający wszystkie je
 
 **Umożliwia to** szybkie przełączanie implementacji za pomocą konfiguracji, oraz zbiorowe **testowanie wszystkich implementacji naraz**.
 
-Konfiguracja aplikacji - z których implementacji ma akurat korzystać jest "IN-CODE":  
+Konfiguracja aplikacji - z których implementacji ma akurat korzystać jest "IN-CODE":
 * me.kotsu.config.prod.AppConfigurationProd.java
 	
 Konfiguracja również jest abstrakcyjna, istnieje też druga implementacja konfiguracji, do testów automatycznych.  
 
 
-Główny przepływ danych następuje w **Serwisie**:  
+Główny przepływ danych następuje w **Serwisie**:
 * me.kotsu.MainService.java
 
-**Punkt wejściowy** aplikacji znajduje się w:  
+**Punkt wejściowy** aplikacji znajduje się w:
 * me.kotsu.Main.java
 
 # Zachowanie programu
