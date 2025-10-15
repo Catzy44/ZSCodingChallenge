@@ -10,13 +10,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class SortingAlgorithmsDynamicTest {
 
-    private static Stream<SortingAlgorithm> algorithms() {
-        return Arrays.stream(SortingAlgorithmsRegistry.values()).map(SortingAlgorithmsRegistry::get);
+    private static Stream<Sorter> algorithms() {
+        return Arrays.stream(SortersRegistry.values()).map(SortersRegistry::get);
     }
 
     @ParameterizedTest(name = "should sort correctly using {0}")
     @MethodSource("algorithms")
-    void shouldSortArrayInAscendingOrder(SortingAlgorithm sorter) {
+    void shouldSortArrayInAscendingOrder(Sorter sorter) {
         int[] data = {5, 3, 8, 4, 2};
         int[] expected = {2, 3, 4, 5, 8};
         sorter.sort(data);
@@ -25,7 +25,7 @@ public class SortingAlgorithmsDynamicTest {
 
     @ParameterizedTest(name = "should handle reversed array using {0}")
     @MethodSource("algorithms")
-    void shouldHandleReversedArray(SortingAlgorithm sorter) {
+    void shouldHandleReversedArray(Sorter sorter) {
         int[] data = {9, 7, 5, 3, 1};
         int[] expected = {1, 3, 5, 7, 9};
         sorter.sort(data);
@@ -34,7 +34,7 @@ public class SortingAlgorithmsDynamicTest {
 
     @ParameterizedTest(name = "should handle duplicates using {0}")
     @MethodSource("algorithms")
-    void shouldHandleDuplicates(SortingAlgorithm sorter) {
+    void shouldHandleDuplicates(Sorter sorter) {
         int[] data = {4, 2, 4, 1, 2};
         int[] expected = {1, 2, 2, 4, 4};
         sorter.sort(data);
@@ -43,7 +43,7 @@ public class SortingAlgorithmsDynamicTest {
 
     @ParameterizedTest(name = "should handle empty array using {0}")
     @MethodSource("algorithms")
-    void shouldHandleEmptyArray(SortingAlgorithm sorter) {
+    void shouldHandleEmptyArray(Sorter sorter) {
         int[] data = {};
         int[] expected = {};
         sorter.sort(data);

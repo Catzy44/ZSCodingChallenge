@@ -9,11 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import me.kotsu.exceptions.FetchException;
 import me.kotsu.exceptions.ParsingException;
-import me.kotsu.monitoring.__MeasureTimeAspect;
 import me.kotsu.parser.Parser;
 
 public class DataProviderService {
-	private static final Logger logger = LoggerFactory.getLogger(__MeasureTimeAspect.class);
+	private static final Logger logger = LoggerFactory.getLogger(DataProviderService.class);
 	private final List<DataProvider<?>> activeDataProviders;
 	 
 	public DataProviderService(List<DataProvider<?>> providers) {

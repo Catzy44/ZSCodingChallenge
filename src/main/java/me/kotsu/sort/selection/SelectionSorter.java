@@ -1,8 +1,8 @@
 package me.kotsu.sort.selection;
 
-import me.kotsu.sort.SortingAlgorithm;
+import me.kotsu.sort.Sorter;
 
-public class SortingAlgorithmSelection implements SortingAlgorithm {
+public class SelectionSorter implements Sorter {
 	@Override
 	public void sort(int[] arr) {
 		int n = arr.length;

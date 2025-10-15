@@ -3,13 +3,13 @@ package me.kotsu.monitoring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.kotsu.sort.SortingAlgorithm;
+import me.kotsu.sort.Sorter;
 
-public class MeasureSorterTimeDecorator implements SortingAlgorithm {
+public class MeasureSorterTimeDecorator implements Sorter {
 	private static final Logger logger = LoggerFactory.getLogger(MeasureSorterTimeDecorator.class);
-	private SortingAlgorithm sorter;
+	private Sorter sorter;
 
-	public MeasureSorterTimeDecorator(SortingAlgorithm sorter) {
+	public MeasureSorterTimeDecorator(Sorter sorter) {
 		this.sorter = sorter;
 	}
 

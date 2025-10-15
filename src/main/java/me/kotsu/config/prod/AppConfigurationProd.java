@@ -14,8 +14,8 @@ import me.kotsu.data.http.HTTPDataProviderConfig;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
-import me.kotsu.sort.SortingAlgorithm;
-import me.kotsu.sort.SortingAlgorithmsRegistry;
+import me.kotsu.sort.Sorter;
+import me.kotsu.sort.SortersRegistry;
 
 public class AppConfigurationProd implements AppConfiguration {
 	public final Charset decoderCharset = StandardCharsets.UTF_8;
@@ -35,7 +35,7 @@ public class AppConfigurationProd implements AppConfiguration {
 	}
 	
 	@Override
-	public SortingAlgorithm buildSorter() {
-		return new MeasureSorterTimeDecorator(SortingAlgorithmsRegistry.BUBBLE.get()); 
+	public Sorter buildSorter() {
+		return new MeasureSorterTimeDecorator(SortersRegistry.BUBBLE.get()); 
 	}
 }

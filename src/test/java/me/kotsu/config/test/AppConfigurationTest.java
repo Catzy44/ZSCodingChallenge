@@ -18,8 +18,8 @@ import me.kotsu.data.http.HTTPDataProviderTestHTTPServer;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
-import me.kotsu.sort.SortingAlgorithm;
-import me.kotsu.sort.SortingAlgorithmsRegistry;
+import me.kotsu.sort.Sorter;
+import me.kotsu.sort.SortersRegistry;
 
 @Getter
 public class AppConfigurationTest implements AppConfiguration {
@@ -66,7 +66,7 @@ public class AppConfigurationTest implements AppConfiguration {
 	}
 	
 	@Override
-	public SortingAlgorithm buildSorter() {
-		return new MeasureSorterTimeDecorator(SortingAlgorithmsRegistry.BUBBLE.get()); 
+	public Sorter buildSorter() {
+		return new MeasureSorterTimeDecorator(SortersRegistry.BUBBLE.get()); 
 	}
 }

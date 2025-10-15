@@ -10,7 +10,7 @@ import me.kotsu.config.AppConfiguration;
 import me.kotsu.exceptions.FetchException;
 import me.kotsu.exceptions.ParsingException;
 import me.kotsu.parser.Parser;
-import me.kotsu.sort.SortingAlgorithm;
+import me.kotsu.sort.Sorter;
 
 public class MainService {
 	private static final Logger logger = LoggerFactory.getLogger(MainService.class);
@@ -33,7 +33,7 @@ public class MainService {
      */
     public String start() throws FetchException, ParsingException {
         Parser parser = config.buildParser();
-        SortingAlgorithm sorter = config.buildSorter();
+        Sorter sorter = config.buildSorter();
         
         return config.buildDataProviderService()
         		.streamValidParsedData(parser)
