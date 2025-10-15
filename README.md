@@ -1,4 +1,4 @@
-#Zadanie rekrutacyjne dla Z...S Przemysław Witczak
+# Zadanie rekrutacyjne dla Z...S Przemysław Witczak
 
 Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zostanie to uznane za "Over-engineering", ale po rozmowie rekrutacyjnej uznałem że właśnie tak powinienem podejść do problemu.
 
@@ -6,7 +6,7 @@ Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zost
 
 Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na Springu.
 
-#Architektura programu
+# Architektura programu
 
 DataProvidery, Parsery oraz Sortery to elementy abstrakcyjne - interfejsy.  
 Dla każdego z tych interfejsów istnieje Registry zawierający wszystkie jego implementacje.  
@@ -26,7 +26,7 @@ Główny przepływ danych następuje w Serwisie:
 Punkt wejściowy aplikacji znajduje się w:  
 * me.kotsu.Main.java
 
-#Zachowanie programu
+# Zachowanie programu
 (Wrzuciłem to też w JavaDoc)
 
 Zachowanie DataProviderów:  
@@ -46,6 +46,8 @@ b) Piorun kulisty wleciał do biura, trafił w komputer i sortowanie siadło - z
 
 Mierzenie czasu zostało całkowicie oddzielone od logiki i ma miejsce za pomocą Aspektów.  
 Nałożony na metodę Aspekt opatula ją i mierzy czas jej wykonywania, po czym loguje go do konsoli.
+
+# Testy
 
 Testy automatyczne sprawdzają zachowanie wszystkich implementacji danego interfejsu, zbierając je z Registry.  
 Testowane są Sortery, Parsery i DataProvidery.  
