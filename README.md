@@ -6,6 +6,8 @@ Mam nadzieję, że nie zrobiłem całości za bardzo "Enterprise" i że nie zost
 
 Jeżeli życzą sobie Państwo, mogę szybko przerobić cały projekt tak, aby był zbudowany na Springu.
 
+Poświęcony czas to około 6 godzin, w kilku blokach.
+
 # Architektura programu
 
 Projekt opiera się na buildsystemie **Gradlew**.  
@@ -13,7 +15,7 @@ Starałem się korzystać z **nowoczesnych API Javy**, w kilku miejscach wykorzy
 Jako bibliotekę JSON wybrałem **Gson**, a do testów automatycznych **JUnit5**  
 Wykorzystałem również **Apache Commons**'y (**NET**), **Apache FTP** oraz **slf4j**
 
-**DataProvidery**, **Parsery** oraz **Sortery** to elementy **abstrakcyjne** - interfejsy.  
+**DataProvidery**, **Parsery**, **Sortery** oraz **Formattery** to elementy **abstrakcyjne** - interfejsy.  
 Dla każdego z tych interfejsów istnieje **Registry** zawierający wszystkie jego implementacje.  
 **Podczas dodawania nowych implementacji należy uzupełnić Registry**.  
 
@@ -49,8 +51,14 @@ a) Sortowanie udane - zwraca posortowany Optional<>
 b) Piorun kulisty wleciał do biura, trafił w komputer i sortowanie siadło - zwraca SortingException j.w.  
 (czyli każda nieprzewidziana sytuacja skutkuje SortingException)
 
-Mierzenie czasu zostało całkowicie oddzielone od logiki i ma miejsce za pomocą Aspektów.  
-Nałożony na metodę Aspekt opatula ją i mierzy czas jej wykonywania, po czym loguje go do konsoli.
+Zachowanie Formatterów:  
+a) Formatowanie udane - zwraca string  
+b) null na wejściu - zwraca wyjątek
+
+Mierzenie czasu zostało całkowicie oddzielone od logiki i miało mieć miejsce za pomocą **Aspektów**/**Anotacji**.  
+Ale bardzo mi się stawiał **AspectJ** bez **Springa** na nowym **JVM**, więc zrezygnowałem z tego i postawiłem na prosty **Dekorator**.  
+**Dekorator** ten implementuje ten sam interfejs i jest wstrzykiwany w konfiguracji.  
+Można go bardzo łatwo i szybko wyłączyć lub włączyć.
 
 # Testy
 
