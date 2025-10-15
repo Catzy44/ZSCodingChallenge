@@ -15,7 +15,7 @@ import me.kotsu.data.source.TestDataSourcesRegistry;
 import me.kotsu.exceptions.ParsingException;
 import me.kotsu.formatter.Formatter;
 import me.kotsu.parser.Parser;
-import me.kotsu.sort.Sorter;
+import me.kotsu.sorter.Sorter;
 
 public class MainServiceTest {
 	private static final Logger logger = LoggerFactory.getLogger(MainServiceTest.class);

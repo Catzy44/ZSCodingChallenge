@@ -1,4 +1,4 @@
-package me.kotsu.sort;
+package me.kotsu.sorter;
 
 public interface Sorter {
 	/**

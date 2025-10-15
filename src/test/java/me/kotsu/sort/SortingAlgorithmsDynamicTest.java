@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import me.kotsu.sorter.Sorter;
+import me.kotsu.sorter.SortersRegistry;
+
 public class SortingAlgorithmsDynamicTest {
 
     private static Stream<Sorter> algorithms() {

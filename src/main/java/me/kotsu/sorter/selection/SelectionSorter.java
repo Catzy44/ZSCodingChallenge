@@ -1,6 +1,6 @@
-package me.kotsu.sort.selection;
+package me.kotsu.sorter.selection;
 
-import me.kotsu.sort.Sorter;
+import me.kotsu.sorter.Sorter;
 
 public class SelectionSorter implements Sorter {
 	@Override

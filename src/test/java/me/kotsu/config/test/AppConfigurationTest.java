@@ -24,8 +24,8 @@ import me.kotsu.formatter.FormattersRegistry;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
-import me.kotsu.sort.Sorter;
-import me.kotsu.sort.SortersRegistry;
+import me.kotsu.sorter.Sorter;
+import me.kotsu.sorter.SortersRegistry;
 
 @Getter
 public class AppConfigurationTest implements AppConfiguration {

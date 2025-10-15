@@ -3,7 +3,7 @@ package me.kotsu.monitoring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.kotsu.sort.Sorter;
+import me.kotsu.sorter.Sorter;
 
 public class MeasureSorterTimeDecorator implements Sorter {
 	private static final Logger logger = LoggerFactory.getLogger(MeasureSorterTimeDecorator.class);

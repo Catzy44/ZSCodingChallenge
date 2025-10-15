@@ -8,7 +8,7 @@ import me.kotsu.exceptions.FetchException;
 import me.kotsu.exceptions.ParsingException;
 import me.kotsu.formatter.Formatter;
 import me.kotsu.parser.Parser;
-import me.kotsu.sort.Sorter;
+import me.kotsu.sorter.Sorter;
 
 public class MainService {
 	private static final Logger logger = LoggerFactory.getLogger(MainService.class);

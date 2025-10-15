@@ -16,8 +16,8 @@ import me.kotsu.formatter.FormattersRegistry;
 import me.kotsu.monitoring.MeasureSorterTimeDecorator;
 import me.kotsu.parser.Parser;
 import me.kotsu.parser.ParsersRegistry;
-import me.kotsu.sort.Sorter;
-import me.kotsu.sort.SortersRegistry;
+import me.kotsu.sorter.Sorter;
+import me.kotsu.sorter.SortersRegistry;
 
 public class AppConfigurationProd implements AppConfiguration {
 	public final Charset decoderCharset = StandardCharsets.UTF_8;
@@ -25,7 +25,7 @@ public class AppConfigurationProd implements AppConfiguration {
 	@Override
 	public DataProviderService buildDataProviderService() {
 		return DataProviderService.builder()
-				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("Z:/dane/lista.json"), decoderCharset)))
+				.add(DataProviderRegistry.FILE.create(new FileDataProviderConfig(Path.of("C:\\Users\\catzy\\Desktop\\lista.json"), decoderCharset)))
 				.add(DataProviderRegistry.HTTP.create(new HTTPDataProviderConfig(URI.create("https://zaiks.org.pl/dane/lista.json"), 10 , decoderCharset)))
 				.add(DataProviderRegistry.FTP.create(new FTPDataProviderConfig("ftp.server.com", 21, "/lista.json", "user", "pass" , decoderCharset)))
 				.build();

@@ -1,6 +1,6 @@
-package me.kotsu.sort.bubble;
+package me.kotsu.sorter.bubble;
 
-import me.kotsu.sort.Sorter;
+import me.kotsu.sorter.Sorter;
 
 public class BubbleSorter implements Sorter {
 	@Override

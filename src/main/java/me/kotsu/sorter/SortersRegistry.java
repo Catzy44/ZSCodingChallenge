@@ -1,7 +1,7 @@
-package me.kotsu.sort;
+package me.kotsu.sorter;
 
-import me.kotsu.sort.bubble.BubbleSorter;
-import me.kotsu.sort.selection.SelectionSorter;
+import me.kotsu.sorter.bubble.BubbleSorter;
+import me.kotsu.sorter.selection.SelectionSorter;
 
 public enum SortersRegistry {
     BUBBLE(new BubbleSorter()),
