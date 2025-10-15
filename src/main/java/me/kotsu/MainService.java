@@ -1,8 +1,5 @@
 package me.kotsu;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,13 +40,5 @@ public class MainService {
                 .map(formatter::format)
                 .findFirst()
                 .orElseThrow(() -> new FetchException("Cannot find any source with a valid data!"));
-    }
-    
-    
-
-    public String formatOutput(int[] elements) {
-        return Arrays.stream(elements)
-                .mapToObj(String::valueOf)
-                .collect(Collectors.joining(", "));
     }
 }
